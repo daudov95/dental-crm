@@ -26,6 +26,10 @@
                     Сотрудники
                 </a>
             @endcan
+            <a href="{{ route('catalog.services.index') }}"
+               class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('catalog.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
+                Справочник услуг
+            </a>
         </nav>
 
         <div class="p-4 border-t border-slate-800 text-xs">
