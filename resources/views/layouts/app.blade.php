@@ -30,6 +30,10 @@
                class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('catalog.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
                 Справочник услуг
             </a>
+            <a href="{{ route('patients.index') }}"
+               class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('patients.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
+                Пациенты
+            </a>
         </nav>
 
         <div class="p-4 border-t border-slate-800 text-xs">
