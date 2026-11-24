@@ -15,31 +15,31 @@ class IdentitySeeder extends Seeder
     {
         $staff = [
             [
-                'name' => 'Гезуев Гималай (Руководитель)',
+                'name' => 'Иван Петров (Руководитель)',
                 'email' => 'director@dentalcrm.local',
                 'role' => UserRole::Director,
                 'specialization' => 'Главный врач',
             ],
             [
-                'name' => 'Амина Исаева',
+                'name' => 'Екатерина Сидорова',
                 'email' => 'admin@dentalcrm.local',
                 'role' => UserRole::Admin,
                 'specialization' => 'Старший администратор',
             ],
             [
-                'name' => 'Мадина Ахмадова',
+                'name' => 'Наталья Козлова',
                 'email' => 'orthodontist@dentalcrm.local',
                 'role' => UserRole::Doctor,
                 'specialization' => 'Врач-ортодонт',
             ],
             [
-                'name' => 'Тимур Хасанов',
+                'name' => 'Михаил Орлов',
                 'email' => 'surgeon@dentalcrm.local',
                 'role' => UserRole::Doctor,
                 'specialization' => 'Хирург-имплантолог',
             ],
             [
-                'name' => 'Залина Мусаева',
+                'name' => 'Светлана Фёдорова',
                 'email' => 'therapist@dentalcrm.local',
                 'role' => UserRole::Doctor,
                 'specialization' => 'Врач-терапевт',

@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\Catalog\Database\Seeders\CatalogSeeder;
 use Modules\Identity\Database\Seeders\IdentitySeeder;
+use Modules\Patients\Database\Seeders\PatientsSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             IdentitySeeder::class,
             CatalogSeeder::class,
+            PatientsSeeder::class,
         ]);
     }
 }
