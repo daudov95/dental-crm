@@ -24,4 +24,28 @@ enum DealStatus: string
             self::Lost => 'Отказ',
         };
     }
+
+    /**
+     * @return list<self>
+     */
+    public static function activeCases(): array
+    {
+        return [
+            self::New,
+            self::Consultation,
+            self::TreatmentPlan,
+            self::InProgress,
+        ];
+    }
+
+    /**
+     * @return list<self>
+     */
+    public static function closedCases(): array
+    {
+        return [
+            self::Completed,
+            self::Lost,
+        ];
+    }
 }
