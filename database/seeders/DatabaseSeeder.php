@@ -8,6 +8,7 @@ use Modules\Catalog\Database\Seeders\CatalogSeeder;
 use Modules\Deals\Database\Seeders\DealsSeeder;
 use Modules\Identity\Database\Seeders\IdentitySeeder;
 use Modules\Patients\Database\Seeders\PatientsSeeder;
+use Modules\Scheduling\Database\Seeders\SchedulingSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CatalogSeeder::class,
             PatientsSeeder::class,
             DealsSeeder::class,
+            SchedulingSeeder::class,
         ]);
     }
 }

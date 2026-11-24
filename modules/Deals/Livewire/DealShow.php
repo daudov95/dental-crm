@@ -11,6 +11,7 @@ use Modules\Deals\Actions\MoveDealStageAction;
 use Modules\Deals\Enums\DealStatus;
 use Modules\Deals\Enums\LossReason;
 use Modules\Deals\Models\Deal;
+use Modules\Scheduling\Models\Appointment;
 
 class DealShow extends Component
 {
@@ -72,9 +73,16 @@ class DealShow extends Component
 
     public function render(): View
     {
+        $appointments = Appointment::query()
+            ->with('doctor')
+            ->where('deal_id', $this->deal->id)
+            ->orderByDesc('starts_at')
+            ->get();
+
         return view('deals::livewire.deal-show', [
             'statuses' => DealStatus::cases(),
             'lossReasons' => LossReason::cases(),
+            'appointments' => $appointments,
             'canManage' => auth()->user()->can('moveStage', $this->deal),
         ])->layout('layouts.app', ['title' => $this->deal->title]);
     }
