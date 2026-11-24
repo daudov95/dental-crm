@@ -7,6 +7,7 @@ namespace Modules\Deals\Livewire;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Modules\Billing\Models\Payment;
 use Modules\Deals\Actions\MoveDealStageAction;
 use Modules\Deals\Enums\DealStatus;
 use Modules\Deals\Enums\LossReason;
@@ -79,11 +80,24 @@ class DealShow extends Component
             ->orderByDesc('starts_at')
             ->get();
 
+        $payments = Payment::query()
+            ->with('receiver')
+            ->where('deal_id', $this->deal->id)
+            ->orderByDesc('paid_at')
+            ->get();
+
+        $paidTotal = round((float) $payments->sum('amount'), 2);
+        $remainingAmount = max(0.0, round((float) $this->deal->total_amount - $paidTotal, 2));
+
         return view('deals::livewire.deal-show', [
             'statuses' => DealStatus::cases(),
             'lossReasons' => LossReason::cases(),
             'appointments' => $appointments,
+            'payments' => $payments,
+            'paidTotal' => $paidTotal,
+            'remainingAmount' => $remainingAmount,
             'canManage' => auth()->user()->can('moveStage', $this->deal),
+            'canViewBilling' => auth()->user()->can('viewAny', Payment::class),
         ])->layout('layouts.app', ['title' => $this->deal->title]);
     }
 }
