@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'Панель управления' }} — {{ config('app.name') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
     @livewireStyles
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased">
@@ -33,6 +34,10 @@
             <a href="{{ route('patients.index') }}"
                class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('patients.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
                 Пациенты
+            </a>
+            <a href="{{ route('deals.index') }}"
+               class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('deals.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
+                Сделки и воронка
             </a>
         </nav>
 
