@@ -43,6 +43,18 @@
                class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('scheduling.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
                 Расписание
             </a>
+            @can('viewAny', \Modules\Billing\Models\Payment::class)
+                @php($unreadBillingAlerts = \Modules\Billing\Models\SystemAlert::unread()->count())
+                <a href="{{ route('billing.index') }}"
+                   class="flex items-center justify-between px-3 py-2 rounded-lg {{ request()->routeIs('billing.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
+                    <span>Оплаты и рассрочки</span>
+                    @if($unreadBillingAlerts > 0)
+                        <span class="px-1.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-500 text-white">
+                {{ $unreadBillingAlerts }}
+            </span>
+                    @endif
+                </a>
+            @endcan
         </nav>
 
         <div class="p-4 border-t border-slate-800 text-xs">

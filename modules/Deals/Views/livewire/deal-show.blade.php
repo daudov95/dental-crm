@@ -144,8 +144,51 @@
         </div>
 
         <div class="bg-white rounded-xl border border-slate-200 p-6">
-            <h3 class="font-semibold text-slate-900 mb-2">Оплаты и остаток долга</h3>
-            <p class="text-sm text-slate-500">Подключится в Модуле 6 (Billing).</p>
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-semibold text-slate-900">Оплаты и остаток долга</h3>
+                @if($canViewBilling)
+                    <a href="{{ route('billing.index') }}" class="text-xs font-medium text-sky-600 hover:underline">
+                        Перейти в оплаты →
+                    </a>
+                @endif
+            </div>
+
+            @if($canViewBilling)
+                <div class="grid grid-cols-2 gap-3 mb-4 p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs">
+                    <div>
+                        <div class="text-slate-500">Оплачено</div>
+                        <div class="text-base font-bold text-emerald-700">
+                            {{ number_format($paidTotal, 0, ',', ' ') }} ₽
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-slate-500">Остаток долга</div>
+                        <div class="text-base font-bold {{ $remainingAmount > 0 ? 'text-amber-700' : 'text-emerald-600' }}">
+                            {{ number_format($remainingAmount, 0, ',', ' ') }} ₽
+                        </div>
+                    </div>
+                </div>
+
+                @forelse($payments as $pay)
+                    <div class="py-2.5 border-b border-slate-100 last:border-b-0 flex items-start justify-between gap-3 text-sm">
+                        <div>
+                            <div class="font-medium text-slate-900">
+                                {{ $pay->paid_at->format('d.m.Y H:i') }} • {{ $pay->method->label() }}
+                            </div>
+                            @if($pay->comment)
+                                <div class="text-xs text-slate-500 mt-0.5">{{ $pay->comment }}</div>
+                            @endif
+                        </div>
+                        <span class="font-semibold text-emerald-700 whitespace-nowrap">
+                            + {{ number_format((float) $pay->amount, 0, ',', ' ') }} ₽
+                        </span>
+                    </div>
+                @empty
+                    <p class="text-sm text-slate-500">Платежей по этой сделке еще не было.</p>
+                @endforelse
+            @else
+                <p class="text-sm text-slate-500">Финансовая информация доступна только администратору и руководителю.</p>
+            @endif
         </div>
     </div>
 
