@@ -39,6 +39,10 @@
                class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('deals.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
                 Сделки и воронка
             </a>
+            <a href="{{ route('scheduling.index') }}"
+               class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('scheduling.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
+                Расписание
+            </a>
         </nav>
 
         <div class="p-4 border-t border-slate-800 text-xs">

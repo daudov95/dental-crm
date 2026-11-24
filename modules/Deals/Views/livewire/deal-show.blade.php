@@ -114,8 +114,33 @@
     {{-- Заглушки под будущие модули Scheduling и Billing --}}
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="bg-white rounded-xl border border-slate-200 p-6">
-            <h3 class="font-semibold text-slate-900 mb-2">Визиты по сделке</h3>
-            <p class="text-sm text-slate-500">Подключится в Модуле 5 (Scheduling).</p>
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="font-semibold text-slate-900">Визиты по сделке</h3>
+                <a href="{{ route('scheduling.index') }}" class="text-xs font-medium text-sky-600 hover:underline">
+                    Перейти в расписание →
+                </a>
+            </div>
+
+            @forelse($appointments as $visit)
+                <div class="py-2.5 border-b border-slate-100 last:border-b-0 flex items-start justify-between gap-3 text-sm">
+                    <div>
+                        <div class="font-medium text-slate-900">
+                            {{ $visit->starts_at->format('d.m.Y H:i') }} — {{ $visit->ends_at->format('H:i') }}
+                        </div>
+                        <div class="text-xs text-slate-500">
+                            Врач: {{ $visit->doctor?->name ?? '—' }}
+                        </div>
+                        @if($visit->notes)
+                            <div class="text-xs text-slate-600 mt-1">{{ $visit->notes }}</div>
+                        @endif
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 whitespace-nowrap">
+                        {{ $visit->status->label() }}
+                    </span>
+                </div>
+            @empty
+                <p class="text-sm text-slate-500">Визиты по этой сделке еще не назначены.</p>
+            @endforelse
         </div>
 
         <div class="bg-white rounded-xl border border-slate-200 p-6">
