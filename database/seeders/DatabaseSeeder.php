@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\Audit\Database\Seeders\AuditSeeder;
 use Modules\Billing\Database\Seeders\BillingSeeder;
 use Modules\Catalog\Database\Seeders\CatalogSeeder;
 use Modules\Deals\Database\Seeders\DealsSeeder;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             DealsSeeder::class,
             SchedulingSeeder::class,
             BillingSeeder::class,
+            AuditSeeder::class,
         ]);
     }
 }

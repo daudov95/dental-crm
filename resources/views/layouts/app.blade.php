@@ -55,6 +55,12 @@
                     @endif
                 </a>
             @endcan
+            @can('viewAny', \Modules\Audit\Models\AuditLog::class)
+                <a href="{{ route('audit.index') }}"
+                   class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('audit.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
+                    Журнал аудита
+                </a>
+            @endcan
         </nav>
 
         <div class="p-4 border-t border-slate-800 text-xs">
