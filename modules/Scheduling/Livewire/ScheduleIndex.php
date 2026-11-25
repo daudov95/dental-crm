@@ -30,7 +30,6 @@ final class ScheduleIndex extends Component
     public string $doctorFilter = '';
     public string $statusFilter = '';
 
-    // Модалка создания / редактирования записи (director, admin)
     public bool $showModal = false;
     public ?int $editingId = null;
     public string $patientId = '';
@@ -43,7 +42,6 @@ final class ScheduleIndex extends Component
     public string $status = 'scheduled';
     public string $notes = '';
 
-    // Модалка быстрого обновления статуса и заметки (доступна и врачу)
     public bool $showStatusModal = false;
     public ?int $statusAppointmentId = null;
     public string $quickStatus = 'scheduled';
@@ -306,7 +304,6 @@ final class ScheduleIndex extends Component
             ->orderBy('name')
             ->get();
 
-        // Колонки врачей для дневной календарной сетки
         if ($user->role === UserRole::Doctor) {
             $calendarDoctors = collect([$user]);
         } elseif ($this->doctorFilter !== '') {
@@ -315,7 +312,6 @@ final class ScheduleIndex extends Component
             $calendarDoctors = $doctors;
         }
 
-        // Базовый рабочий день: 09:00 .. 21:00, с авторасширением под ранние/поздние записи
         $dayStartMinutes = 9 * 60;
         $dayEndMinutes = 21 * 60;
 
@@ -345,7 +341,6 @@ final class ScheduleIndex extends Component
             ? Appointment::with(['patient', 'doctor', 'deal'])->find($this->statusAppointmentId)
             : null;
 
-        // 7 дней недели для недельной сетки
         $weekDays = [];
         $weekStart = $anchor->startOfWeek();
         $dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];

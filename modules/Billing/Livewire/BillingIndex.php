@@ -26,7 +26,6 @@ final class BillingIndex extends Component
     public string $search = '';
     public string $methodFilter = '';
 
-    // Модалка приема платежа
     public bool $showModal = false;
     public string $dealId = '';
     public string $amount = '';
@@ -180,7 +179,6 @@ final class BillingIndex extends Component
             ->orderByDesc('paid_at')
             ->get();
 
-        // Суммы оплат по сделкам одним запросом
         $paidByDeal = Payment::query()
             ->select('deal_id', DB::raw('SUM(amount) as paid_total'))
             ->groupBy('deal_id')
