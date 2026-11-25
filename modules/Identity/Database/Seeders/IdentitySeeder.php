@@ -15,7 +15,7 @@ class IdentitySeeder extends Seeder
     {
         $staff = [
             [
-                'name' => 'Иван Петров (Руководитель)',
+                'name' => 'Иван Петров',
                 'email' => 'director@dentalcrm.local',
                 'role' => UserRole::Director,
                 'specialization' => 'Главный врач',

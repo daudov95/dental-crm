@@ -61,6 +61,12 @@
                     Журнал аудита
                 </a>
             @endcan
+            @can('analytics.view')
+                <a href="{{ route('analytics.index') }}"
+                   class="flex items-center px-3 py-2 rounded-lg {{ request()->routeIs('analytics.*') ? 'bg-sky-600 text-white' : 'hover:bg-slate-800' }}">
+                    Аналитика и KPI
+                </a>
+            @endcan
         </nav>
 
         <div class="p-4 border-t border-slate-800 text-xs">

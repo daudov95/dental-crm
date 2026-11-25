@@ -29,7 +29,6 @@ class DealsIndex extends Component
     public string $statusFilter = '';
     public string $installmentFilter = '';
 
-    // Модалка создания / редактирования сделки
     public bool $showModal = false;
     public ?int $editingId = null;
     public string $patientId = '';
@@ -43,7 +42,6 @@ class DealsIndex extends Component
     /** @var array<int, array{service_id: string, quantity: int, unit_price: string}> */
     public array $items = [];
 
-    // Модалка выбора причины отказа при смене этапа
     public bool $showLossModal = false;
     public ?int $pendingLossDealId = null;
     public string $pendingLossReason = '';
@@ -157,7 +155,6 @@ class DealsIndex extends Component
         $statusValues = array_map(fn (DealStatus $s) => $s->value, DealStatus::cases());
         $lossReasonValues = array_map(fn (LossReason $r) => $r->value, LossReason::cases());
 
-        // Фильтруем полностью пустые строки услуг, если пользователь не выбрал услугу
         $filteredItems = array_values(array_filter(
             $this->items,
             fn (array $row): bool => ($row['service_id'] ?? '') !== ''
