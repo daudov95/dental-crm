@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Patients\Policies;
 
+use Modules\Identity\Enums\UserRole;
 use Modules\Identity\Models\User;
 use Modules\Patients\Models\Patient;
 
-class PatientPolicy
+final readonly class PatientPolicy
 {
     public function viewAny(User $user): bool
     {
@@ -16,7 +17,16 @@ class PatientPolicy
 
     public function view(User $user, Patient $patient): bool
     {
-        return true;
+        if ($user->isStaffManager()) {
+            return true;
+        }
+
+        if ($user->role === UserRole::Doctor) {
+            return $patient->deals()->where('doctor_id', $user->id)->exists()
+                || $patient->appointments()->where('doctor_id', $user->id)->exists();
+        }
+
+        return false;
     }
 
     public function create(User $user): bool

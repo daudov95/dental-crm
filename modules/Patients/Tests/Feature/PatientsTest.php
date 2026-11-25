@@ -7,6 +7,8 @@ namespace Modules\Patients\Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
+use Modules\Deals\Enums\DealStatus;
+use Modules\Deals\Models\Deal;
 use Modules\Identity\Enums\UserRole;
 use Modules\Identity\Models\User;
 use Modules\Patients\Enums\PatientSource;
@@ -71,9 +73,19 @@ class PatientsTest extends TestCase
 
         $patient = Patient::create([
             'full_name' => 'Пациент Для Просмотра',
-            'phone' => '+7 (777) 999-88-77',
+            'phone' => '+7 (928) 999-88-77',
             'source' => PatientSource::WhatsApp,
             'consent_given' => true,
+        ]);
+
+        Deal::create([
+            'patient_id' => $patient->id,
+            'doctor_id' => $doctor->id,
+            'title' => 'Консультация для теста',
+            'status' => DealStatus::Consultation,
+            'total_amount' => 0,
+            'is_installment' => false,
+            'is_overdue' => false,
         ]);
 
         $this->actingAs($doctor)
