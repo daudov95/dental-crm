@@ -129,7 +129,26 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">Телефон</label>
-                            <input type="text" wire:model="phone" placeholder="+7 (928) 000-00-00"
+                            <input type="tel"
+                                   wire:model="phone"
+                                   placeholder="+7 (999) 999-99-99"
+                                   maxlength="18"
+                                   x-data="{
+                                       formatPhone(value) {
+                                           let digits = value.replace(/\D/g, '');
+                                           if (digits.startsWith('8')) digits = '7' + digits.slice(1);
+                                           if (digits.length > 0 && !digits.startsWith('7')) digits = '7' + digits;
+                                           digits = digits.slice(0, 11);
+                                           let res = '';
+                                           if (digits.length > 0) res = '+7';
+                                           if (digits.length > 1) res += ' (' + digits.slice(1, 4);
+                                           if (digits.length > 4) res += ') ' + digits.slice(4, 7);
+                                           if (digits.length > 7) res += '-' + digits.slice(7, 9);
+                                           if (digits.length > 9) res += '-' + digits.slice(9, 11);
+                                           return res;
+                                       }
+                                   }"
+                                   x-on:input="$el.value = formatPhone($el.value); $wire.set('phone', $el.value, false)"
                                    class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
                             @error('phone') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
                         </div>

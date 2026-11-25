@@ -18,6 +18,7 @@ use Modules\Patients\Actions\UpdatePatientAction;
 use Modules\Patients\DTO\PatientDTO;
 use Modules\Patients\Enums\PatientSource;
 use Modules\Patients\Models\Patient;
+use Modules\Patients\Support\PhoneFormatter;
 
 #[Layout('layouts.app')]
 #[Title('Пациенты')]
@@ -87,26 +88,34 @@ class PatientIndex extends Component
         CreatePatientAction $createAction,
         UpdatePatientAction $updateAction,
     ): void {
+        $normalizedPhone = PhoneFormatter::normalize($this->phone);
+        if ($normalizedPhone !== null) {
+            $this->phone = $normalizedPhone;
+        }
+
         $this->validate([
             'fullName' => ['required', 'string', 'max:255'],
             'phone' => [
                 'required',
                 'string',
-                'max:32',
+                'regex:' . PhoneFormatter::PATTERN,
                 Rule::unique('patients', 'phone')->ignore($this->editingId),
             ],
             'birthDate' => ['nullable', 'date', 'before_or_equal:today'],
             'source' => ['required', Rule::enum(PatientSource::class)],
             'notes' => ['nullable', 'string', 'max:2000'],
             'consentGiven' => ['boolean'],
+        ], [
+            'phone.regex' => 'Введите номер в формате +7 (999) 999-99-99.',
+            'phone.unique' => 'Пациент с таким номером телефона уже существует.',
         ]);
 
         $dto = new PatientDTO(
-            fullName: $this->fullName,
+            fullName: trim($this->fullName),
             phone: $this->phone,
             birthDate: $this->birthDate !== '' ? $this->birthDate : null,
             source: PatientSource::from($this->source),
-            notes: $this->notes !== '' ? $this->notes : null,
+            notes: trim($this->notes) !== '' ? trim($this->notes) : null,
             consentGiven: $this->consentGiven,
         );
 
@@ -160,7 +169,7 @@ class PatientIndex extends Component
 
     public function render(): View
     {
-        $query = Patient::query();
+        $query = Patient::query()->visibleFor(auth()->user());
 
         if ($this->statusFilter === 'archived') {
             $query->onlyTrashed();
